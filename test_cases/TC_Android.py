@@ -3,7 +3,7 @@ import HtmlTestRunner
 from selenium import webdriver
 import os
 import sys
-from Omni_Test_Automation.Android_directory.Android_test2 import Automation_android, driver
+from Android_directory.Android_test2 import Automation_android, driver
 
 
 class Android_Runner_class(unittest.TestCase):

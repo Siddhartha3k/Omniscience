@@ -33,7 +33,8 @@ class Form_upload(unittest.TestCase):
         a = a.encode('utf-8')
         b = a.decode('utf-8')
         print(a)
-        print(b)
+
+
 
 if __name__ == "__main__":
     unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(
