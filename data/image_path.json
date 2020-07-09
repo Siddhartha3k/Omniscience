@@ -1,7 +1,18 @@
 {
 
-
-  "input1" :"D://git/Omniscience/HC_forms/himawari_01-2.png",
-  "input2" :"D://git/Omniscience/HC_forms/himawari_01-2.png"
-
+   "input1" : "D://git/Omniscience/HC_forms/hanasaku_test-0.png",
+   "input2" : "D://git/Omniscience/HC_forms/hanasaku_test-1.png",
+   "input3" : "D://git/Omniscience/HC_forms/hanasaku_test-2.png",
+   "input4" : "D://git/Omniscience/HC_forms/hanasaku_test-3.png",
+   "input5" : "D://git/Omniscience/HC_forms/hanasaku_test-4.png",
+   "input6" : "D://git/Omniscience/HC_forms/hanasaku_test-8.png",
+   "input7" : "D://git/Omniscience/HC_forms/himawari_01-2.png",
+   "input8" : "D://git/Omniscience/HC_forms/himawari_01-3.png",
+   "input9" : "D://git/Omniscience/HC_forms/himawari_03-0.png",
+   "input10" : "D://git/Omniscience/HC_forms/himawari_05-0.png",
+   "input11" : "D://git/Omniscience/HC_forms/himawari_05-1.png",
+   "input12" : "D://git/Omniscience/HC_forms/himawari_07-1.png",
+   "input13" : "D://git/Omniscience/HC_forms/himawari_07-3.png",
+   "input14" : "D://git/Omniscience/HC_forms/DL-HC-High.jpg",
+   "input15" : "D://git/Omniscience/HC_forms/DL-HC-Left-1.jpg"
 }

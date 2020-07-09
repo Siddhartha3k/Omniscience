@@ -1,4 +1,19 @@
 {
-  "input1" :"D:/git/Omniscience/data/data11_names.json",
-  "input2" :"D:/git/Omniscience/data/data_names.json"
+  "input1" : "D:/git/Omniscience/Forms_actual_data_json_file/hanasaku_test_0.json",
+  "input2" : "D:/git/Omniscience/Forms_actual_data_json_file/hanasaku_test_1.json",
+  "input3" : "D:/git/Omniscience/Forms_actual_data_json_file/hanasaku_test_2.json",
+  "input4" : "D:/git/Omniscience/Forms_actual_data_json_file/hanasaku_test_3.json",
+  "input5" : "D:/git/Omniscience/Forms_actual_data_json_file/hanasaku_test_4.json",
+  "input6" : "D:/git/Omniscience/Forms_actual_data_json_file/hanasaku_test_8.json",
+  "input7" : "D:/git/Omniscience/Forms_actual_data_json_file/himawari_01_02.json",
+  "input8" : "D:/git/Omniscience/Forms_actual_data_json_file/himawari_01_3.json",
+  "input9" : "D:/git/Omniscience/Forms_actual_data_json_file/himawari_03_0.json",
+  "input10" : "D:/git/Omniscience/Forms_actual_data_json_file/himawari_05_0.json",
+  "input11" : "D:/git/Omniscience/Forms_actual_data_json_file/himawari_05_1.json",
+  "input12" : "D:/git/Omniscience/Forms_actual_data_json_file/himawari_07_1.json",
+  "input13" : "D:/git/Omniscience/Forms_actual_data_json_file/himawari_07_3.json",
+  "input14" : "D:/git/Omniscience/Forms_actual_data_json_file/Mis_DL_HC_HIGH.json",
+  "input15" : "D:/git/Omniscience/Forms_actual_data_json_file/Mis_DL_HC_LEFT_1.json"
+
+
 }
