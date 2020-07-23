@@ -9,7 +9,6 @@ driver = webdriver
 
 
 class Automation_android(unittest.TestCase):
-
     menu_tab = "//*[@resource-id='com.omniocr:id/Image_view_menu']"
     home_button = "//*[@text='Home']"
     self_assessment = "//*[@text='Start new assessment']"
@@ -72,7 +71,7 @@ class Automation_android(unittest.TestCase):
         time.sleep(2)
         self.driver.find_element_by_xpath(self.next_button).click()
         time.sleep(4)
-        #self.driver.back()
+        # self.driver.back()
 
     def click_next_button1(self):
         time.sleep(2)
@@ -108,7 +107,7 @@ class Automation_android(unittest.TestCase):
 
         time.sleep(2)
 
-        #self.driver.back()
+        # self.driver.back()
         self.driver.back()
         # print("Data List1:")
         # self.driver.back
@@ -159,7 +158,6 @@ class Automation_android(unittest.TestCase):
         self.driver.find_element_by_xpath(self.click_here).click()
         time.sleep(1)
 
-
 # a= Automation_android()
 # a.Set_desired_capabilities()
 # a.click_menu_tab()
@@ -169,4 +167,3 @@ class Automation_android(unittest.TestCase):
 # a.click_next_button()
 # a.click_send_document()
 # a.get_results_text()
-

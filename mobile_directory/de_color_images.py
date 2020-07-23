@@ -1,4 +1,4 @@
-#De-color Images
+# De-color Images
 import os
 import unittest
 import time
@@ -10,17 +10,16 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-
 desired_caps = DesiredCapabilities.IPHONE
 desired_caps['deviceName'] = 'iPad 6'
 desired_caps['platformVersion'] = '12.2'
 desired_caps['platformName'] = 'iOS'
 desired_caps['xcodeOrgId'] = '89DPCZNK6E'
-desired_caps['noReset'] : 'true'
-desired_caps['bundleId'] : 'omniscience.MobileOCR'
-desired_caps['automationName'] : 'XCUITest'
+desired_caps['noReset']: 'true'
+desired_caps['bundleId']: 'omniscience.MobileOCR'
+desired_caps['automationName']: 'XCUITest'
 desired_caps['udid'] = '25f53f38592c583f31dbb64e0d511527f19bacd3'
-desired_caps['updateWDABundleId'] : 'omniscience.MobileOCR'
+desired_caps['updateWDABundleId']: 'omniscience.MobileOCR'
 desired_caps['app'] = PATH('/Users/joeyfrmfrnds/Downloads/MobileOCR.ipa')
 driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_caps)
 time.sleep(1)

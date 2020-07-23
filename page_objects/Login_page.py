@@ -19,6 +19,3 @@ class Test_Login_page():
 
     def click_submit_button(self):
         self.driver.find_element_by_xpath(self.submit_button).click()
-
-
-

@@ -1,0 +1,14 @@
+{
+  "input1": "LDLコレステロール\n今回\n98",
+  "input2": "中性脂肪\n今回\n33",
+  "input3": "体重\n今回\n47.7",
+  "input4": "GPT (ALT)\n今回\n27",
+  "input5": "血糖\n今回\n99",
+  "input6": "腹囲\n今回\n68.0",
+  "input7": "AST (GOT)\n今回\n32",
+  "input8": "赤血球数\n今回\n432",
+  "input9": "身長\n今回\n164.5",
+  "input10": "最低血庄\n今回\n70",
+  "input11": "BMI\n今回\n22.0\n前回\n75.0",
+  "input12": "γ-GTP\n今回\n97"
+}

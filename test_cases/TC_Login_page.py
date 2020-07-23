@@ -4,9 +4,11 @@ from selenium import webdriver
 import os
 import sys
 import time
-#sys.path.append("/Users/joeyfrmfrnds/PycharmProjects/Omni_Test_Automation")
+
+# sys.path.append("/Users/joeyfrmfrnds/PycharmProjects/Omni_Test_Automation")
 sys.path.append("D:/Automation/Omni_Test_Automation")
 from page_objects.Login_page import Test_Login_page
+
 
 class Login_test(unittest.TestCase):
     PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
@@ -31,6 +33,7 @@ class Login_test(unittest.TestCase):
         lp.enter_password(self.password)
         self.driver.implicitly_wait(10)
         lp.click_submit_button()
+
 
 if __name__ == "__main__":
     unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8"/>
     <title>Test Report</title>
     <style>body {
@@ -166,9 +166,11 @@ div.image img {
 	/*finish triangle*/
 	border-top: 8px solid #999;
 }
-</style></head>
-  <body onLoad="init()">
-    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
+
+    </style>
+</head>
+<body onLoad="init()">
+<script>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
@@ -396,63 +398,185 @@ function filter_table(elem) {
     var not_found_message = document.getElementById("not-found-message");
     not_found_message.hidden = !all_rows_hidden;
 }
+
 </script>
-    <h1>report1.html</h1>
-    <p>Report generated on 12-Nov-2019 at 15:30:38 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v1.22.0</p>
-    <h2>Environment</h2>
-    <table id="environment">
-      <tr>
+<h1>report1.html</h1>
+<p>Report generated on 12-Nov-2019 at 15:30:38 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
+    v1.22.0</p>
+<h2>Environment</h2>
+<table id="environment">
+    <tr>
         <td>JAVA_HOME</td>
-        <td>/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home</td></tr>
-      <tr>
+        <td>/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home</td>
+    </tr>
+    <tr>
         <td>Packages</td>
-        <td>{&apos;py&apos;: &apos;1.8.0&apos;, &apos;pytest&apos;: &apos;4.6.6&apos;, &apos;pluggy&apos;: &apos;0.13.0&apos;}</td></tr>
-      <tr>
+        <td>{&apos;py&apos;: &apos;1.8.0&apos;, &apos;pytest&apos;: &apos;4.6.6&apos;, &apos;pluggy&apos;: &apos;0.13.0&apos;}</td>
+    </tr>
+    <tr>
         <td>Platform</td>
-        <td>Darwin-18.7.0-x86_64-i386-64bit</td></tr>
-      <tr>
+        <td>Darwin-18.7.0-x86_64-i386-64bit</td>
+    </tr>
+    <tr>
         <td>Plugins</td>
-        <td>{u&apos;html&apos;: u&apos;1.22.0&apos;, u&apos;metadata&apos;: u&apos;1.8.0&apos;}</td></tr>
-      <tr>
+        <td>{u&apos;html&apos;: u&apos;1.22.0&apos;, u&apos;metadata&apos;: u&apos;1.8.0&apos;}</td>
+    </tr>
+    <tr>
         <td>Python</td>
-        <td>2.7.10</td></tr></table>
-    <h2>Summary</h2>
-    <p>3 tests ran in 21.38 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">1 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">2 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
-    <h2>Results</h2>
-    <table id="results-table">
-      <thead id="results-table-head">
-        <tr>
-          <th class="sortable result initial-sort" col="result">Result</th>
-          <th class="sortable" col="name">Test</th>
-          <th class="sortable numeric" col="duration">Duration</th>
-          <th>Links</th></tr>
-        <tr hidden="true" id="not-found-message">
-          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
-      <tbody class="failed results-table-row">
-        <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">test_Pytest.py::Test_abc::test__b_login_Gtlite</td>
-          <td class="col-duration">5.01</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">self = &lt;test_cases.test_Pytest.Test_abc instance at 0x110997680&gt;, setup = None<br/><br/>    def test__b_login_Gtlite(self, setup):<br/>        time.sleep(5)<br/>&gt;       self.driver.find_element_by_xpath("//input[@id='okta-signin-username']").send_keys("siddhartha.p@3ktechnologies.com",<br/>                                                                                      Keys.TAB)<br/><br/>test_Pytest.py:31: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>../venv/lib/python2.7/site-packages/selenium/webdriver/remote/webdriver.py:394: in find_element_by_xpath<br/>    return self.find_element(by=By.XPATH, value=xpath)<br/>../venv/lib/python2.7/site-packages/selenium/webdriver/remote/webdriver.py:978: in find_element<br/>    'value': value})['value']<br/>../venv/lib/python2.7/site-packages/selenium/webdriver/remote/webdriver.py:321: in execute<br/>    self.error_handler.check_response(response)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x11077d710&gt;<br/>response = {'status': 404, 'value': '{"value":{"error":"no such window","message":"no such window: window was already closed\n  (...007fff7ccb5249 _pthread_start + 66\n21  libsystem_pthread.dylib             0x00007fff7ccb140d thread_start + 13\n"}}'}<br/><br/>    def check_response(self, response):<br/>        """<br/>        Checks that a JSON response from the WebDriver does not have an error.<br/>    <br/>        :Args:<br/>         - response - The JSON response from the WebDriver server as a dictionary<br/>           object.<br/>    <br/>        :Raises: If the response contains an error message.<br/>        """<br/>        status = response.get('status', None)<br/>        if status is None or status == ErrorCode.SUCCESS:<br/>            return<br/>        value = None<br/>        message = response.get("message", "")<br/>        screen = response.get("screen", "")<br/>        stacktrace = None<br/>        if isinstance(status, int):<br/>            value_json = response.get('value', None)<br/>            if value_json and isinstance(value_json, basestring):<br/>                import json<br/>                try:<br/>                    value = json.loads(value_json)<br/>                    if len(value.keys()) == 1:<br/>                        value = value['value']<br/>                    status = value.get('error', None)<br/>                    if status is None:<br/>                        status = value["status"]<br/>                        message = value["value"]<br/>                        if not isinstance(message, basestring):<br/>                            value = message<br/>                            message = message.get('message')<br/>                    else:<br/>                        message = value.get('message', None)<br/>                except ValueError:<br/>                    pass<br/>    <br/>        exception_class = ErrorInResponseException<br/>        if status in ErrorCode.NO_SUCH_ELEMENT:<br/>            exception_class = NoSuchElementException<br/>        elif status in ErrorCode.NO_SUCH_FRAME:<br/>            exception_class = NoSuchFrameException<br/>        elif status in ErrorCode.NO_SUCH_WINDOW:<br/>            exception_class = NoSuchWindowException<br/>        elif status in ErrorCode.STALE_ELEMENT_REFERENCE:<br/>            exception_class = StaleElementReferenceException<br/>        elif status in ErrorCode.ELEMENT_NOT_VISIBLE:<br/>            exception_class = ElementNotVisibleException<br/>        elif status in ErrorCode.INVALID_ELEMENT_STATE:<br/>            exception_class = InvalidElementStateException<br/>        elif status in ErrorCode.INVALID_SELECTOR \<br/>                or status in ErrorCode.INVALID_XPATH_SELECTOR \<br/>                or status in ErrorCode.INVALID_XPATH_SELECTOR_RETURN_TYPER:<br/>            exception_class = InvalidSelectorException<br/>        elif status in ErrorCode.ELEMENT_IS_NOT_SELECTABLE:<br/>            exception_class = ElementNotSelectableException<br/>        elif status in ErrorCode.ELEMENT_NOT_INTERACTABLE:<br/>            exception_class = ElementNotInteractableException<br/>        elif status in ErrorCode.INVALID_COOKIE_DOMAIN:<br/>            exception_class = InvalidCookieDomainException<br/>        elif status in ErrorCode.UNABLE_TO_SET_COOKIE:<br/>            exception_class = UnableToSetCookieException<br/>        elif status in ErrorCode.TIMEOUT:<br/>            exception_class = TimeoutException<br/>        elif status in ErrorCode.SCRIPT_TIMEOUT:<br/>            exception_class = TimeoutException<br/>        elif status in ErrorCode.UNKNOWN_ERROR:<br/>            exception_class = WebDriverException<br/>        elif status in ErrorCode.UNEXPECTED_ALERT_OPEN:<br/>            exception_class = UnexpectedAlertPresentException<br/>        elif status in ErrorCode.NO_ALERT_OPEN:<br/>            exception_class = NoAlertPresentException<br/>        elif status in ErrorCode.IME_NOT_AVAILABLE:<br/>            exception_class = ImeNotAvailableException<br/>        elif status in ErrorCode.IME_ENGINE_ACTIVATION_FAILED:<br/>            exception_class = ImeActivationFailedException<br/>        elif status in ErrorCode.MOVE_TARGET_OUT_OF_BOUNDS:<br/>            exception_class = MoveTargetOutOfBoundsException<br/>        elif status in ErrorCode.JAVASCRIPT_ERROR:<br/>            exception_class = JavascriptException<br/>        elif status in ErrorCode.SESSION_NOT_CREATED:<br/>            exception_class = SessionNotCreatedException<br/>        elif status in ErrorCode.INVALID_ARGUMENT:<br/>            exception_class = InvalidArgumentException<br/>        elif status in ErrorCode.NO_SUCH_COOKIE:<br/>            exception_class = NoSuchCookieException<br/>        elif status in ErrorCode.UNABLE_TO_CAPTURE_SCREEN:<br/>            exception_class = ScreenshotException<br/>        elif status in ErrorCode.ELEMENT_CLICK_INTERCEPTED:<br/>            exception_class = ElementClickInterceptedException<br/>        elif status in ErrorCode.INSECURE_CERTIFICATE:<br/>            exception_class = InsecureCertificateException<br/>        elif status in ErrorCode.INVALID_COORDINATES:<br/>            exception_class = InvalidCoordinatesException<br/>        elif status in ErrorCode.INVALID_SESSION_ID:<br/>            exception_class = InvalidSessionIdException<br/>        elif status in ErrorCode.UNKNOWN_METHOD:<br/>            exception_class = UnknownMethodException<br/>        else:<br/>            exception_class = WebDriverException<br/>        if value == '' or value is None:<br/>            value = response['value']<br/>        if isinstance(value, basestring):<br/>            if exception_class == ErrorInResponseException:<br/>                raise exception_class(response, value)<br/>            raise exception_class(value)<br/>        if message == "" and 'message' in value:<br/>            message = value['message']<br/>    <br/>        screen = None<br/>        if 'screen' in value:<br/>            screen = value['screen']<br/>    <br/>        stacktrace = None<br/>        if 'stackTrace' in value and value['stackTrace']:<br/>            stacktrace = []<br/>            try:<br/>                for frame in value['stackTrace']:<br/>                    line = self._value_or_default(frame, 'lineNumber', '')<br/>                    file = self._value_or_default(frame, 'fileName', '&lt;anonymous&gt;')<br/>                    if line:<br/>                        file = "%s:%s" % (file, line)<br/>                    meth = self._value_or_default(frame, 'methodName', '&lt;anonymous&gt;')<br/>                    if 'className' in frame:<br/>                        meth = "%s.%s" % (frame['className'], meth)<br/>                    msg = "    at %s (%s)"<br/>                    msg = msg % (meth, file)<br/>                    stacktrace.append(msg)<br/>            except TypeError:<br/>                pass<br/>        if exception_class == ErrorInResponseException:<br/>            raise exception_class(response, message)<br/>        elif exception_class == UnexpectedAlertPresentException:<br/>            alert_text = None<br/>            if 'data' in value:<br/>                alert_text = value['data'].get('text')<br/>            elif 'alert' in value:<br/>                alert_text = value['alert'].get('text')<br/>            raise exception_class(message, screen, stacktrace, alert_text)<br/>&gt;       raise exception_class(message, screen, stacktrace)<br/><span class="error">E       NoSuchWindowException: Message: no such window: window was already closed</span><br/><span class="error">E         (Session info: chrome=78.0.3904.97)</span><br/><br/>../venv/lib/python2.7/site-packages/selenium/webdriver/remote/errorhandler.py:242: NoSuchWindowException<br/></div></td></tr></tbody>
-      <tbody class="failed results-table-row">
-        <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">test_Pytest.py::Test_abc::test_dropdown</td>
-          <td class="col-duration">0.00</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">self = &lt;test_cases.test_Pytest.Test_abc instance at 0x11077f680&gt;<br/><br/>    def test_dropdown(self):<br/>&gt;       self.driver.find_element_by_xpath("(//*[@class='dropdown-item'])[5]").click()<br/><span class="error">E       AttributeError: Test_abc instance has no attribute 'driver'</span><br/><br/>test_Pytest.py:49: AttributeError<br/></div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">test_Pytest.py::Test_abc::test_a_get_home_page</td>
-          <td class="col-duration">11.92</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="empty log">No log output captured.</div></td></tr></tbody></table></body></html>
+        <td>2.7.10</td>
+    </tr>
+</table>
+<h2>Summary</h2>
+<p>3 tests ran in 21.38 seconds. </p>
+<p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter"
+                                                                                     data-test-result="passed"
+                                                                                     hidden="true"
+                                                                                     name="filter_checkbox"
+                                                                                     onChange="filter_table(this)"
+                                                                                     type="checkbox"/><span
+        class="passed">1 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true"
+                                               hidden="true" name="filter_checkbox" onChange="filter_table(this)"
+                                               type="checkbox"/><span class="skipped">0 skipped</span>, <input
+        checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox"
+        onChange="filter_table(this)" type="checkbox"/><span class="failed">2 failed</span>, <input checked="true"
+                                                                                                    class="filter"
+                                                                                                    data-test-result="error"
+                                                                                                    disabled="true"
+                                                                                                    hidden="true"
+                                                                                                    name="filter_checkbox"
+                                                                                                    onChange="filter_table(this)"
+                                                                                                    type="checkbox"/><span
+        class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true"
+                                              hidden="true" name="filter_checkbox" onChange="filter_table(this)"
+                                              type="checkbox"/><span class="xfailed">0 expected failures</span>, <input
+        checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox"
+        onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+<h2>Results</h2>
+<table id="results-table">
+    <thead id="results-table-head">
+    <tr>
+        <th class="sortable result initial-sort" col="result">Result</th>
+        <th class="sortable" col="name">Test</th>
+        <th class="sortable numeric" col="duration">Duration</th>
+        <th>Links</th>
+    </tr>
+    <tr hidden="true" id="not-found-message">
+        <th colspan="4">No results found. Try to check the filters</th>
+    </tr>
+    </thead>
+    <tbody class="failed results-table-row">
+    <tr>
+        <td class="col-result">Failed</td>
+        <td class="col-name">test_Pytest.py::Test_abc::test__b_login_Gtlite</td>
+        <td class="col-duration">5.01</td>
+        <td class="col-links"></td>
+    </tr>
+    <tr>
+        <td class="extra" colspan="4">
+            <div class="log">self = &lt;test_cases.test_Pytest.Test_abc instance at 0x110997680&gt;, setup =
+                None<br/><br/> def test__b_login_Gtlite(self, setup):<br/> time.sleep(5)<br/>&gt;
+                self.driver.find_element_by_xpath("//input[@id='okta-signin-username']").send_keys("siddhartha.p@3ktechnologies.com",<br/>
+                Keys.TAB)<br/><br/>test_Pytest.py:31: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+                _ _ _ _ _ _ _ _ _ <br/>../venv/lib/python2.7/site-packages/selenium/webdriver/remote/webdriver.py:394:
+                in find_element_by_xpath<br/> return self.find_element(by=By.XPATH, value=xpath)<br/>../venv/lib/python2.7/site-packages/selenium/webdriver/remote/webdriver.py:978:
+                in find_element<br/> 'value': value})['value']<br/>../venv/lib/python2.7/site-packages/selenium/webdriver/remote/webdriver.py:321:
+                in execute<br/> self.error_handler.check_response(response)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+                _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;selenium.webdriver.remote.errorhandler.ErrorHandler
+                object at 0x11077d710&gt;<br/>response = {'status': 404, 'value': '{"value":{"error":"no such
+                window","message":"no such window: window was already closed\n (...007fff7ccb5249 _pthread_start +
+                66\n21 libsystem_pthread.dylib 0x00007fff7ccb140d thread_start + 13\n"}}'}<br/><br/> def
+                check_response(self, response):<br/> """<br/> Checks that a JSON response from the WebDriver does not
+                have an error.<br/> <br/> :Args:<br/> - response - The JSON response from the WebDriver server as a
+                dictionary<br/> object.<br/> <br/> :Raises: If the response contains an error message.<br/> """<br/>
+                status = response.get('status', None)<br/> if status is None or status == ErrorCode.SUCCESS:<br/> return<br/>
+                value = None<br/> message = response.get("message", "")<br/> screen = response.get("screen", "")<br/>
+                stacktrace = None<br/> if isinstance(status, int):<br/> value_json = response.get('value', None)<br/> if
+                value_json and isinstance(value_json, basestring):<br/> import json<br/> try:<br/> value =
+                json.loads(value_json)<br/> if len(value.keys()) == 1:<br/> value = value['value']<br/> status =
+                value.get('error', None)<br/> if status is None:<br/> status = value["status"]<br/> message =
+                value["value"]<br/> if not isinstance(message, basestring):<br/> value = message<br/> message =
+                message.get('message')<br/> else:<br/> message = value.get('message', None)<br/> except ValueError:<br/>
+                pass<br/> <br/> exception_class = ErrorInResponseException<br/> if status in
+                ErrorCode.NO_SUCH_ELEMENT:<br/> exception_class = NoSuchElementException<br/> elif status in
+                ErrorCode.NO_SUCH_FRAME:<br/> exception_class = NoSuchFrameException<br/> elif status in
+                ErrorCode.NO_SUCH_WINDOW:<br/> exception_class = NoSuchWindowException<br/> elif status in
+                ErrorCode.STALE_ELEMENT_REFERENCE:<br/> exception_class = StaleElementReferenceException<br/> elif
+                status in ErrorCode.ELEMENT_NOT_VISIBLE:<br/> exception_class = ElementNotVisibleException<br/> elif
+                status in ErrorCode.INVALID_ELEMENT_STATE:<br/> exception_class = InvalidElementStateException<br/> elif
+                status in ErrorCode.INVALID_SELECTOR \<br/> or status in ErrorCode.INVALID_XPATH_SELECTOR \<br/> or
+                status in ErrorCode.INVALID_XPATH_SELECTOR_RETURN_TYPER:<br/> exception_class = InvalidSelectorException<br/>
+                elif status in ErrorCode.ELEMENT_IS_NOT_SELECTABLE:<br/> exception_class = ElementNotSelectableException<br/>
+                elif status in ErrorCode.ELEMENT_NOT_INTERACTABLE:<br/> exception_class =
+                ElementNotInteractableException<br/> elif status in ErrorCode.INVALID_COOKIE_DOMAIN:<br/>
+                exception_class = InvalidCookieDomainException<br/> elif status in ErrorCode.UNABLE_TO_SET_COOKIE:<br/>
+                exception_class = UnableToSetCookieException<br/> elif status in ErrorCode.TIMEOUT:<br/> exception_class
+                = TimeoutException<br/> elif status in ErrorCode.SCRIPT_TIMEOUT:<br/> exception_class = TimeoutException<br/>
+                elif status in ErrorCode.UNKNOWN_ERROR:<br/> exception_class = WebDriverException<br/> elif status in
+                ErrorCode.UNEXPECTED_ALERT_OPEN:<br/> exception_class = UnexpectedAlertPresentException<br/> elif status
+                in ErrorCode.NO_ALERT_OPEN:<br/> exception_class = NoAlertPresentException<br/> elif status in
+                ErrorCode.IME_NOT_AVAILABLE:<br/> exception_class = ImeNotAvailableException<br/> elif status in
+                ErrorCode.IME_ENGINE_ACTIVATION_FAILED:<br/> exception_class = ImeActivationFailedException<br/> elif
+                status in ErrorCode.MOVE_TARGET_OUT_OF_BOUNDS:<br/> exception_class =
+                MoveTargetOutOfBoundsException<br/> elif status in ErrorCode.JAVASCRIPT_ERROR:<br/> exception_class =
+                JavascriptException<br/> elif status in ErrorCode.SESSION_NOT_CREATED:<br/> exception_class =
+                SessionNotCreatedException<br/> elif status in ErrorCode.INVALID_ARGUMENT:<br/> exception_class =
+                InvalidArgumentException<br/> elif status in ErrorCode.NO_SUCH_COOKIE:<br/> exception_class =
+                NoSuchCookieException<br/> elif status in ErrorCode.UNABLE_TO_CAPTURE_SCREEN:<br/> exception_class =
+                ScreenshotException<br/> elif status in ErrorCode.ELEMENT_CLICK_INTERCEPTED:<br/> exception_class =
+                ElementClickInterceptedException<br/> elif status in ErrorCode.INSECURE_CERTIFICATE:<br/>
+                exception_class = InsecureCertificateException<br/> elif status in ErrorCode.INVALID_COORDINATES:<br/>
+                exception_class = InvalidCoordinatesException<br/> elif status in ErrorCode.INVALID_SESSION_ID:<br/>
+                exception_class = InvalidSessionIdException<br/> elif status in ErrorCode.UNKNOWN_METHOD:<br/>
+                exception_class = UnknownMethodException<br/> else:<br/> exception_class = WebDriverException<br/> if
+                value == '' or value is None:<br/> value = response['value']<br/> if isinstance(value, basestring):<br/>
+                if exception_class == ErrorInResponseException:<br/> raise exception_class(response, value)<br/> raise
+                exception_class(value)<br/> if message == "" and 'message' in value:<br/> message =
+                value['message']<br/> <br/> screen = None<br/> if 'screen' in value:<br/> screen = value['screen']<br/>
+                <br/> stacktrace = None<br/> if 'stackTrace' in value and value['stackTrace']:<br/> stacktrace = []<br/>
+                try:<br/> for frame in value['stackTrace']:<br/> line = self._value_or_default(frame, 'lineNumber',
+                '')<br/> file = self._value_or_default(frame, 'fileName', '&lt;anonymous&gt;')<br/> if line:<br/> file =
+                "%s:%s" % (file, line)<br/> meth = self._value_or_default(frame, 'methodName', '&lt;anonymous&gt;')<br/>
+                if 'className' in frame:<br/> meth = "%s.%s" % (frame['className'], meth)<br/> msg = " at %s (%s)"<br/>
+                msg = msg % (meth, file)<br/> stacktrace.append(msg)<br/> except TypeError:<br/> pass<br/> if
+                exception_class == ErrorInResponseException:<br/> raise exception_class(response, message)<br/> elif
+                exception_class == UnexpectedAlertPresentException:<br/> alert_text = None<br/> if 'data' in value:<br/>
+                alert_text = value['data'].get('text')<br/> elif 'alert' in value:<br/> alert_text =
+                value['alert'].get('text')<br/> raise exception_class(message, screen, stacktrace, alert_text)<br/>&gt;
+                raise exception_class(message, screen, stacktrace)<br/><span class="error">E       NoSuchWindowException: Message: no such window: window was already closed</span><br/><span
+                        class="error">E         (Session info: chrome=78.0.3904.97)</span><br/><br/>../venv/lib/python2.7/site-packages/selenium/webdriver/remote/errorhandler.py:242:
+                NoSuchWindowException<br/></div>
+        </td>
+    </tr>
+    </tbody>
+    <tbody class="failed results-table-row">
+    <tr>
+        <td class="col-result">Failed</td>
+        <td class="col-name">test_Pytest.py::Test_abc::test_dropdown</td>
+        <td class="col-duration">0.00</td>
+        <td class="col-links"></td>
+    </tr>
+    <tr>
+        <td class="extra" colspan="4">
+            <div class="log">self = &lt;test_cases.test_Pytest.Test_abc instance at 0x11077f680&gt;<br/><br/> def
+                test_dropdown(self):<br/>&gt;
+                self.driver.find_element_by_xpath("(//*[@class='dropdown-item'])[5]").click()<br/><span class="error">E       AttributeError: Test_abc instance has no attribute 'driver'</span><br/><br/>test_Pytest.py:49:
+                AttributeError<br/></div>
+        </td>
+    </tr>
+    </tbody>
+    <tbody class="passed results-table-row">
+    <tr>
+        <td class="col-result">Passed</td>
+        <td class="col-name">test_Pytest.py::Test_abc::test_a_get_home_page</td>
+        <td class="col-duration">11.92</td>
+        <td class="col-links"></td>
+    </tr>
+    <tr>
+        <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -5,8 +5,8 @@ from email.message import EmailMessage
 
 EMAIL_ADDRESS = 'pamidi.siddhartha@gmail.com'
 EMAIL_PASSWORD = 'Chowdarypam'
-#EMAIL_ADDRESS = os.environ.get('EMAIL_USER')
-#EMAIL_PASSWORD = os.environ.get('EMAIL_PASS')
+# EMAIL_ADDRESS = os.environ.get('EMAIL_USER')
+# EMAIL_PASSWORD = os.environ.get('EMAIL_PASS')
 
 contacts = ['pamidi.siddhartha@gmail.com']
 
@@ -25,7 +25,6 @@ msg.add_alternative("""\
     </body>
 </html>
 """, subtype='html')
-
 
 with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
     smtp.login('pamidi.siddhartha@gmail.com', 'Chowdarypam')

@@ -3,13 +3,12 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 import json
 
+
 class Test_Cases_page():
     cases_tab = "//*[text()='Cases']"
     first_case = "(//*[@class='case-item-title'])[1]/child::*"
     json_file_path = "/Users/joeyfrmfrnds/Documents/test_project/data/data_names.json"
     list_of_elements = "//tr"
-
-
 
     def __init__(self, driver):
         self.driver = driver
@@ -60,6 +59,3 @@ class Test_Cases_page():
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 print("Actual Data: " + data_list1[i])
-
-
-

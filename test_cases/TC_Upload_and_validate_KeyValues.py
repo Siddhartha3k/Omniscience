@@ -1,5 +1,3 @@
-from page_objects.Groups_data_page import Test_Groups_page
-from page_objects.Login_page import Test_Login_page
 
 import unittest
 import HtmlTestRunner
@@ -7,13 +5,14 @@ from selenium import webdriver
 import os
 import sys
 import json
+
+from page_objects.Login_page import Test_Login_page
+from page_objects.multiple_forms_upload import Test_multiple_form_upload
+
 sys.path.append("D:/test")
 
 
-
-
 class Form_upload(unittest.TestCase):
-
     PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
     DRIVER_BIN = os.path.join(PROJECT_ROOT, "../drivers/chromedriver")
     driver = webdriver.Chrome(executable_path=DRIVER_BIN)
@@ -27,37 +26,41 @@ class Form_upload(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.driver.get(cls.baseURL)        # Opens the Web Application
-        cls.driver.maximize_window()       # Maximize the window
+        cls.driver.get(cls.baseURL)  # Opens the Web Application
+        cls.driver.maximize_window()  # Maximize the window
         cls.driver.implicitly_wait(100)
 
     def test_b_login(self):
         lp = Test_Login_page(self.driver)
         lp.enter_user_name(self.username)  # Enters the username
         self.driver.implicitly_wait(10)
-        lp.enter_password(self.password)   # Enters the password
-        lp = Test_Login_page(self.driver)
+        lp.enter_password(self.password)  # Enters the password
         self.driver.implicitly_wait(10)
         lp.click_submit_button()
 
-    def test_c_upload_form(self):
-        gp = Test_Groups_page(self.driver)
-        gp.click_a_groups_tab()            # Clicks on the Groups tab
-        gp.click_automation_group()        # Selects one of the Groups
-        gp.click_h_click_create_form()     # Clicks on 'Create Form' button
-        gp.upload_i_form()                 # Uploads the form in to the application
-        gp.enter_form_provider()           # Enters the Form provider name
-        gp.click_save_button()             # Clicks on save  button
+    # def test_c_upload_form(self):
+    #     gp = Test_Groups_page(self.driver)
+    #     gp.click_a_groups_tab()            # Clicks on the Groups tab
+    #     gp.click_automation_group()        # Selects one of the Groups
+    #     gp.click_h_click_create_form()     # Clicks on 'Create Form' button
+    #     gp.upload_i_form()                 # Uploads the form in to the application
+    #     gp.enter_form_provider()           # Enters the Form provider name
+    #     gp.click_save_button()             # Clicks on save  button
 
-    def test_d_compare_results(self):
-        gp = Test_Groups_page(self.driver)
-        gp.click_c_first_form()             # Selects the uploaded form
-        gp.click_d_actions_drop_down()      # Clicks on Action drop down
-        gp.click_e_view_overall_results()   # Clicks on 'View overall results
-        gp.get_f_list_of_form_values()      # Gets the Results in to a List and Compare with Form values
+    # def test_d_compare_results(self):
+    #     gp = Test_Groups_page(self.driver)
+    #     gp.click_c_first_form()             # Selects the uploaded form
+    #     gp.click_d_actions_drop_down()      # Clicks on Action drop down
+    #     gp.click_e_view_overall_results()   # Clicks on 'View overall results
+    #     gp.get_f_list_of_form_values()      # Gets the Results in to a List and Compare with Form values
+
+    def test_c_compare_results(self):
+        multiple_form = Test_multiple_form_upload(self.driver)
+        multiple_form.click_a_groups_tab()  # Clicks on Groups tab
+        multiple_form.upload_and_validate_b_multiple_forms()
 
 
 # Generates HTML Test Report
 if __name__ == "__main__":
     unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(
-        output='D:/test/reports'))
+        output='D:/git/Omniscience/reports'))

@@ -4,18 +4,17 @@ from selenium import webdriver
 import os
 import sys
 import time
-#sys.path.append("/Users/joeyfrmfrnds/PycharmProjects/Omni_Test_Automation")
+
+# sys.path.append("/Users/joeyfrmfrnds/PycharmProjects/Omni_Test_Automation")
 sys.path.append("D:/Automation/Omni_Test_Automation")
 from page_objects.Groups_data_page import Test_Groups_page
 from page_objects.Login_page import Test_Login_page
 from page_objects.Cases_Page import Test_Cases_page
 
 
-
 class Groups_test(unittest.TestCase):
-
     PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-    #DRIVER_BIN = os.path.join(PROJECT_ROOT, "/Users/joeyfrmfrnds/Downloads/chromedriver")
+    # DRIVER_BIN = os.path.join(PROJECT_ROOT, "/Users/joeyfrmfrnds/Downloads/chromedriver")
     DRIVER_BIN = os.path.join(PROJECT_ROOT, "D:/Chrome_driver/chromedriver_win32 (1)/chromedriver")
     driver = webdriver.Chrome(executable_path=DRIVER_BIN)
     baseURL = "https://megaocr-ui-rgacf-daiichi.omni.sc"
