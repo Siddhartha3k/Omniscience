@@ -24,6 +24,7 @@ class Test_individual_form_upload(unittest.TestCase):
     save_button = "//button[@class='btn btn-primary']"
     processed_disp = "(//*[@title='Processed'])[1]"
     provider_name = "Siddhartha"
+    inacurat = "//input[@id='inaccurate but high confidence']"
 
     def __init__(self, driver):
         self.driver = driver
@@ -87,30 +88,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  "+expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  "+data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:-"+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  "+data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  "+actual_data+"  "+actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -124,8 +160,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_2_hanasaku_test_1(self):
@@ -136,7 +176,8 @@ class Test_individual_form_upload(unittest.TestCase):
         self.driver.find_element_by_xpath(self.required_group).click()
         time.sleep(8)
         self.driver.implicitly_wait(100)
-        self.driver.find_element_by_xpath(self.create_form_button).click()  # Clicks 'Create' button
+        # Clicks 'Create' button
+        self.driver.find_element_by_xpath(self.create_form_button).click()
         time.sleep(5)
         self.driver.implicitly_wait(100)
         # Fetches the image_path json file location
@@ -157,13 +198,13 @@ class Test_individual_form_upload(unittest.TestCase):
         # Clicks 'save' button
         self.driver.find_element_by_xpath(self.save_button).click()
         time.sleep(45)
-        # waits until image Processed
         wait = WebDriverWait(self.driver, 400)
+        # waits until image Processed
         wait.until(EC.visibility_of_element_located((By.XPATH, self.processed_disp)))
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(45)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -174,6 +215,7 @@ class Test_individual_form_upload(unittest.TestCase):
         # Select all Results
         gt_values = self.driver.find_elements_by_xpath(self.list_of_all_values)
         time.sleep(5)
+
         json_file_path = open("../data/json_file_paths.json", 'r')
         json_input = json_file_path.read()
         input_body = json.loads(json_input)
@@ -185,30 +227,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:-"+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -222,8 +299,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_3_hanasaku_test_2(self):
@@ -234,7 +315,8 @@ class Test_individual_form_upload(unittest.TestCase):
         self.driver.find_element_by_xpath(self.required_group).click()
         time.sleep(8)
         self.driver.implicitly_wait(100)
-        self.driver.find_element_by_xpath(self.create_form_button).click()  # Clicks 'Create' button
+        # Clicks 'Create' button
+        self.driver.find_element_by_xpath(self.create_form_button).click()
         time.sleep(5)
         self.driver.implicitly_wait(100)
         # Fetches the image_path json file location
@@ -261,7 +343,7 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(50)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -272,6 +354,7 @@ class Test_individual_form_upload(unittest.TestCase):
         # Select all Results
         gt_values = self.driver.find_elements_by_xpath(self.list_of_all_values)
         time.sleep(5)
+
         json_file_path = open("../data/json_file_paths.json", 'r')
         json_input = json_file_path.read()
         input_body = json.loads(json_input)
@@ -283,30 +366,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:-"+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -320,8 +438,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_4_hanasaku_test_3(self):
@@ -353,14 +475,14 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks 'save' button
         self.driver.find_element_by_xpath(self.save_button).click()
-        time.sleep(55)
+        time.sleep(45)
         wait = WebDriverWait(self.driver, 400)
         # waits until image Processed
         wait.until(EC.visibility_of_element_located((By.XPATH, self.processed_disp)))
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(45)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -371,6 +493,7 @@ class Test_individual_form_upload(unittest.TestCase):
         # Select all Results
         gt_values = self.driver.find_elements_by_xpath(self.list_of_all_values)
         time.sleep(5)
+
         json_file_path = open("../data/json_file_paths.json", 'r')
         json_input = json_file_path.read()
         input_body = json.loads(json_input)
@@ -382,31 +505,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:  "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR:Inaccurate but high confidence:- "+data_list1[i].encode("utf-8"))
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
 
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -420,8 +577,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_5_hanasaku_test_4(self):
@@ -453,7 +614,7 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks 'save' button
         self.driver.find_element_by_xpath(self.save_button).click()
-        time.sleep(55)
+        time.sleep(45)
         wait = WebDriverWait(self.driver, 400)
         # waits until image Processed
         wait.until(EC.visibility_of_element_located((By.XPATH, self.processed_disp)))
@@ -471,6 +632,7 @@ class Test_individual_form_upload(unittest.TestCase):
         # Select all Results
         gt_values = self.driver.find_elements_by_xpath(self.list_of_all_values)
         time.sleep(5)
+
         json_file_path = open("../data/json_file_paths.json", 'r')
         json_input = json_file_path.read()
         input_body = json.loads(json_input)
@@ -482,33 +644,68 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:  "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR:Inaccurate but high confidence:- "+data_list1[i].encode("utf-8"))
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
 
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
+
         k = 0
         for i in range(len(data_list1)):
             if data_list1[i] == 0:
@@ -519,8 +716,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_6_hanasaku_test_8(self):
@@ -566,10 +767,11 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(5)
         # Clicks 'View overall results"
         self.driver.find_element_by_xpath(self.view_overall_results).click()
-        time.sleep(3)
+        time.sleep(5)
         # Select all Results
         gt_values = self.driver.find_elements_by_xpath(self.list_of_all_values)
         time.sleep(5)
+
         json_file_path = open("../data/json_file_paths.json", 'r')
         json_input = json_file_path.read()
         input_body = json.loads(json_input)
@@ -581,31 +783,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:  "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR:Inaccurate but high confidence:-  "+data_list1[i].encode("utf-8"))
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
 
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -619,8 +855,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_7_himawari_01_2(self):
@@ -682,31 +922,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:  "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
 
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:-  "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -720,8 +994,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_8_himawari_01_3(self):
@@ -783,30 +1061,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:  "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -820,8 +1133,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_9_himawari_03_0(self):
@@ -883,31 +1200,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:  "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
 
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -921,8 +1272,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_10_himawari_05_0(self):
@@ -984,30 +1339,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:  "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -1021,8 +1411,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_11_himawari_05_1(self):
@@ -1084,30 +1478,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:  "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -1121,8 +1550,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_12_himawari_07_1(self):
@@ -1184,30 +1617,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:  "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -1221,8 +1689,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_13_himawari_07_3(self):
@@ -1284,30 +1756,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY: "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -1321,8 +1828,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_14_DL_HC_High(self):
@@ -1384,30 +1895,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY: "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -1421,8 +1967,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_15_DL_HC_Left_1(self):
@@ -1484,30 +2034,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY: "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -1521,8 +2106,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_16_HC_HCDate_2(self):
@@ -1584,30 +2173,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY: "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -1621,10 +2245,13 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
-        else:
-            # Fails if all the values are not accurate
-            pytest.xfail("Test Case Fail due to Mismatch in Key value data")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
 
+        else:
+            # Fail if if there is a Mismatch in Web data with Expected data
+            pytest.xfail("Test Case Fail due to Mismatch in Key value data")
     def form_17_HC_HCDate_3(self):
 
         time.sleep(3)
@@ -1684,30 +2311,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY: "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -1721,8 +2383,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_18_HC_HCDate_4(self):
@@ -1784,30 +2450,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY: "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -1821,8 +2522,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_19_Feb_18_Medical_Exam_1_1(self):
@@ -1884,30 +2589,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY: "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -1921,8 +2661,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_20_Feb_18_Medical_Exam_1_2(self):
@@ -1984,30 +2728,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY: "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -2021,8 +2800,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_21_Feb_18_Medical_Exam_2_0(self):
@@ -2084,30 +2867,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:- "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -2121,8 +2939,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_22_Feb_18_Medical_Exam_2_1(self):
@@ -2154,14 +2976,14 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks 'save' button
         self.driver.find_element_by_xpath(self.save_button).click()
-        time.sleep(55)
+        time.sleep(45)
         wait = WebDriverWait(self.driver, 400)
         # waits until image Processed
         wait.until(EC.visibility_of_element_located((By.XPATH, self.processed_disp)))
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(45)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -2184,30 +3006,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY: "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -2221,8 +3078,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_23_Feb_18_Medical_Exam_3_0(self):
@@ -2284,30 +3145,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:- "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -2321,8 +3217,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_24_Feb_18_Medical_Exam_3_1(self):
@@ -2347,6 +3247,7 @@ class Test_individual_form_upload(unittest.TestCase):
         name_of_image = image_data.__getitem__(23)
         name_of_image = name_of_image.split('/')
         # Prints the name of the Form
+        allure.attach(name_of_image[-1])
         time.sleep(2)
         # Enters Provider name
         self.driver.find_element_by_xpath(self.form_provider).send_keys("Siddhartha")
@@ -2383,30 +3284,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:- "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -2420,8 +3356,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_25_Feb_18_Medical_Exam_6_1(self):
@@ -2446,6 +3386,7 @@ class Test_individual_form_upload(unittest.TestCase):
         name_of_image = image_data.__getitem__(24)
         name_of_image = name_of_image.split('/')
         # Prints the name of the Form
+        allure.attach(name_of_image[-1])
         time.sleep(2)
         # Enters Provider name
         self.driver.find_element_by_xpath(self.form_provider).send_keys("Siddhartha")
@@ -2482,30 +3423,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected  "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual  "+"VERIFY:- "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -2519,8 +3495,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_26_Feb_18_Medical_Exam_6_2(self):
@@ -2582,30 +3562,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                # Prints Json data that is Missing
-                allure.attach("Expected "+json_data[i])
+                expected_data.append(json_data[i])
+
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual "+"VERIFY:- "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual "+"ERROR: Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -2619,8 +3634,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_27_Feb_18_Medical_Exam_7_1(self):
@@ -2682,30 +3701,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -2719,8 +3773,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_28_Feb_18_Medical_Exam_7_2(self):
@@ -2782,30 +3840,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -2819,8 +3912,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_29_Feb_18_Medical_Exam_7_3(self):
@@ -2882,30 +3979,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -2919,8 +4051,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_30_acc_test_4(self):
@@ -2982,30 +4118,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -3019,8 +4190,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_31_acc_test_6(self):
@@ -3059,7 +4234,7 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(60)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -3082,30 +4257,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -3119,8 +4329,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_32_acc_test_9(self):
@@ -3159,7 +4373,7 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(60)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -3182,30 +4396,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -3219,8 +4468,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_33_acc_test_25(self):
@@ -3259,7 +4512,7 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(60)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -3282,30 +4535,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -3319,10 +4607,13 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
-        else:
-            # Fails if all the values are not accurate
-            pytest.xfail("Test Case Fail due to Mismatch in Key value data")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
 
+        else:
+            # Fail if if there is a Mismatch in Web data with Expected data
+            pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_34_Feb_18_Medical_Exam_11_0(self):
 
@@ -3360,7 +4651,7 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(60)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -3383,30 +4674,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -3420,8 +4746,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_35_HC_1_pdf(self):
@@ -3434,7 +4764,7 @@ class Test_individual_form_upload(unittest.TestCase):
         self.driver.implicitly_wait(100)
         # Clicks 'Create' button
         self.driver.find_element_by_xpath(self.create_form_button).click()
-        time.sleep(10)
+        time.sleep(5)
         self.driver.implicitly_wait(100)
         # Fetches the image_path json file location
         image_file_path = open("../data/image_path.json", 'r')
@@ -3447,10 +4777,10 @@ class Test_individual_form_upload(unittest.TestCase):
         name_of_image = name_of_image.split('/')
         # Prints the name of the Form
         allure.attach(name_of_image[-1])
-        time.sleep(5)
+        time.sleep(2)
         # Enters Provider name
         self.driver.find_element_by_xpath(self.form_provider).send_keys("Siddhartha")
-        time.sleep(5)
+        time.sleep(2)
         # Clicks 'save' button
         self.driver.find_element_by_xpath(self.save_button).click()
         time.sleep(45)
@@ -3460,7 +4790,7 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(60)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -3483,30 +4813,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -3520,8 +4885,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_36_HC_2_pdf(self):
@@ -3547,10 +4916,10 @@ class Test_individual_form_upload(unittest.TestCase):
         name_of_image = name_of_image.split('/')
         # Prints the name of the Form
         allure.attach(name_of_image[-1])
-        time.sleep(5)
+        time.sleep(2)
         # Enters Provider name
         self.driver.find_element_by_xpath(self.form_provider).send_keys("Siddhartha")
-        time.sleep(5)
+        time.sleep(2)
         # Clicks 'save' button
         self.driver.find_element_by_xpath(self.save_button).click()
         time.sleep(45)
@@ -3560,7 +4929,7 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(60)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -3583,30 +4952,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -3620,8 +5024,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_37_HC_8_pdf(self):
@@ -3646,7 +5054,7 @@ class Test_individual_form_upload(unittest.TestCase):
         name_of_image = image_data.__getitem__(36)
         name_of_image = name_of_image.split('/')
         # Prints the name of the Form
-        print(name_of_image[-1])
+        allure.attach(name_of_image[-1])
         time.sleep(2)
         # Enters Provider name
         self.driver.find_element_by_xpath(self.form_provider).send_keys("Siddhartha")
@@ -3660,7 +5068,7 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(60)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -3683,30 +5091,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -3720,8 +5163,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_38_HC_9_pdf(self):
@@ -3760,7 +5207,7 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(60)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -3783,30 +5230,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  "+json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   "+"VERIFY:-   "+data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   "+"ERROR:Inaccurate but high confidence:- "+data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -3820,8 +5302,12 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
     def form_39_HC_10_pdf(self):
@@ -3859,7 +5345,7 @@ class Test_individual_form_upload(unittest.TestCase):
         time.sleep(2)
         # Clicks the form
         self.driver.find_element_by_xpath(self.first_form).click()
-        time.sleep(60)
+        time.sleep(55)
         self.driver.implicitly_wait(100)
         # Clicks 'Actions' dropdown
         self.driver.find_element_by_xpath(self.actions_drop_down).click()
@@ -3882,30 +5368,65 @@ class Test_individual_form_upload(unittest.TestCase):
         input_body = json.loads(json_input)
         json_data = list(input_body.values())
         data_list1 = []
-
         for data in gt_values:
             data_list = data.text
             # Gets all Web Results into a List
             data_list1.append(data_list)
-
+        # Compares the Actual data with Expected data
         for i in range(len(json_data)):
             for j in range(len(data_list1)):
                 if data_list1[j] == json_data[i]:
                     data_list1[j] = 0
                     json_data[i] = 0
-
+        expected_data = []
+        actual_data = []
+        actual_data2 = []
         for i in range(len(json_data)):
             if json_data[i] != 0:
-                allure.attach("Expected:  " + json_data[i])
+                expected_data.append(json_data[i])
 
+        expected_data1 = expected_data
+        next_line = '\n'
+        split_list = next_line.join(expected_data1)
+        split_expected_data = split_list.split()
+        # Fetching the English Keys data
+        file1 = open("../data/all_keys_english.json", 'r', encoding="utf8")
+        json_input = file1.read()
+        input_body = json.loads(json_input)
+        english_data = list(input_body.values())
+        english_keys = []
+        for i in split_expected_data:
+            for j in english_data:
+                if i in j:
+                    # Getting all the english data in to a list
+                    english_keys.append(j)
+        # Eliminating the Duplicate keys
+        english_keys = list(set(english_keys))
+        english_keys = str(english_keys)
+        # Printing the Expected Keys in English
+        allure.attach("EXPECTED KEYS " + english_keys.replace("\\n", " "))
+
+        expected_data = str(expected_data)
+        expected_data = expected_data.replace('\\n', ' ')
+        # Printing the Expected Key values
+        allure.attach("EXPECTED :-  " + expected_data)
         for i in range(len(data_list1)):
             if data_list1[i] != 0:
                 if data_list1[i].__contains__("Low Confidence. Please Verify this Key's Values"):
                     # Prints Accurate or Inaccurate Data with 'Low Confidence"
-                    allure.attach("Actual   " + "VERIFY:-   " + data_list1[i])
+                    actual_data.append("VERIFY  " + data_list1[i])
+
                 else:
                     # Prints Inaccurate data with High confidence
-                    allure.attach("Actual   " + "ERROR:Inaccurate but high confidence:- " + data_list1[i])
+                    actual_data2.append("ERROR:Inaccurate but high confidence:-  " + data_list1[i])
+
+        actual_data = str(actual_data)
+        actual_data = actual_data.replace('\\n', ' ')
+        actual_data3 = actual_data2
+        actual_data3 = str(actual_data3)
+        actual_data3 = actual_data3.replace('\\n', ' ')
+        # Prints Web data from Results screen
+        allure.attach("ACTUAL:-  " + actual_data + "  " + actual_data3)
         # Clicks on Groups tab
         self.driver.find_element_by_xpath(self.group_tab).click()
 
@@ -3919,7 +5440,11 @@ class Test_individual_form_upload(unittest.TestCase):
         if k == 0:
             # Prints if All values are Correct
             allure.attach("All Results are Accurate")
+        elif actual_data2 != []:
+            # Assertion Fails if all the values are not accurate
+            assert str(expected_data) == str(actual_data2)
+
         else:
-            # Fails if all the values are not accurate
+            # Fail if if there is a Mismatch in Web data with Expected data
             pytest.xfail("Test Case Fail due to Mismatch in Key value data")
 
