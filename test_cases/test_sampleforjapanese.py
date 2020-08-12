@@ -1,41 +1,64 @@
-import unittest
-
-import HtmlTestRunner
-from selenium import webdriver
-import os
-import sys
-import time
 import json
+import shlex
 
-sys.path.append("D:/Automation/Omni_Test_Automation")
+file0 = open("D:/git/Omniscience/Forms_actual_data_json_file/acc_test_4.json", 'r', encoding="utf8")
+#file0 = open("D:/git/Omniscience/Forms_actual_data_json_file/acc_test_4.json", 'r', encoding="utf8")
+json_input0 = file0.read()
+input_body0 = json.loads(json_input0)
+json_data0 = list(input_body0.values())
 
-from page_objects.Groups_data_page import Test_Groups_page
-from page_objects.Login_page import Test_Login_page
-
-
-
-class Form_upload(unittest.TestCase):
-
-    PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-    DRIVER_BIN = os.path.join(PROJECT_ROOT, "D:/Chrome_driver/chromedriver_win32 (1)/chromedriver")
-    driver = webdriver.Chrome(executable_path=DRIVER_BIN)
-    baseURL = "https://megaocr-ui-rgacf-daiichi.omni.sc"
-    baseURL1 = "https://gtlite.omni.sc"
-    username = "siddhartha.p@3ktechnologies.com"
-    password = "Sidhu@420"
-
-    @classmethod
-    def setUpClass(cls):
-        cls.driver.get(cls.baseURL)
-
-    def test_a_login(self):
-        a = "中性脂肪\n今回\n85\n前回\n123"
-        a = a.encode('utf-8')
-        b = a.decode('utf-8')
-        print(a)
+list2='\n'
+y=list2.join(json_data0)
+x=y.split()
+#print(x)
 
 
 
-if __name__ == "__main__":
-    unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(
-        output='D:/Automation/Omni_Test_Automation/reports'))
+file1 = open("D:/git/Omniscience/data/all_keys_english.json", 'r', encoding="utf8")
+json_input = file1.read()
+input_body = json.loads(json_input)
+english_data = list(input_body.values())
+
+
+
+
+
+al = []
+for i in x:
+    for j in english_data:
+        if i in j:
+            al.append(j)
+al = list(set(al))
+al =str(al)
+
+#print(al.replace("\\n", " "))
+
+
+
+
+actual_data3 = ["abc ABC", "def DEF", "lkj GHI"]
+actual_data4 = ["ABC 123", "GHI 567", "DEF 345"]
+
+lo="abc ABC"
+li = "ABC 123"
+print(lo.__contains__(li))
+
+a=[]
+k=[]
+for i in actual_data3:
+    for j in actual_data4:
+        j.split(" ")
+        k.append(j)
+        if j in (i):
+            a.append(i)
+
+# print(a)
+# print(k)
+
+e_list = ["abc", "cda", "fgh", "hji"]
+m = []
+for item1 in enumerate((e_list), 1):
+    m.append(item1)
+print(m)
+
+
