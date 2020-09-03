@@ -10,7 +10,7 @@ import requests
 import json
 
 
-class Test_Groups_page():
+class Test_Groups_page(unittest.TestCase):
 
     def __init__(self, driver):
         self.driver = driver
@@ -30,6 +30,7 @@ class Test_Groups_page():
         self.driver.find_element_by_xpath("//button[@class='btn btn-primary']").click()
         time.sleep(2)
 
+
         Secondary_Count_of_groups = self.driver.find_elements_by_xpath("//div[@class='row entity-main']")
         if Secondary_Count_of_groups != Primary_Count_of_groups:
             print("Group Created")
@@ -48,16 +49,14 @@ class Test_Groups_page():
         self.driver.find_element_by_xpath("//*[@placeholder='Group Description']").clear()
         self.driver.find_element_by_xpath("//*[@placeholder='Group Name']").send_keys("Testing Automation change name")
         time.sleep(2)
-        self.driver.find_element_by_xpath("//*[@placeholder='Group Description']").send_keys(
-            "Change Description Testing ")
+        self.driver.find_element_by_xpath("//*[@placeholder='Group Description']").send_keys("Change Description Testing ")
         time.sleep(2)
         self.driver.find_element_by_xpath("//button[@class='btn btn-primary']").click()
         time.sleep(2)
-        after_change_group_name = self.driver.find_element_by_xpath(
-            "(//*[@class='row entity-main'])[last()]/child::*[1]")
+        after_change_group_name = self.driver.find_element_by_xpath("(//*[@class='row entity-main'])[last()]/child::*[1]")
         after_change_group_name = after_change_group_name.text
         time.sleep(2)
-        if after_change_group_name != intial_group_name:
+        if after_change_group_name!=intial_group_name:
             print("Group name is edited")
         else:
             print("Group name is not edited")

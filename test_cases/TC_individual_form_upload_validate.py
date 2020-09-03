@@ -2,12 +2,9 @@ from page_objects.Login_page import Test_Login_page
 import unittest
 from selenium import webdriver
 import os
-import sys
 import json
 from page_objects.individul_forms import Test_individual_form_upload
 from page_objects.multiple_forms_upload import Test_multiple_form_upload
-
-sys.path.append("D:/test")
 
 
 class Form_upload(unittest.TestCase):
@@ -15,12 +12,8 @@ class Form_upload(unittest.TestCase):
     DRIVER_BIN = os.path.join(PROJECT_ROOT, "../drivers/chromedriver")
     driver = webdriver.Chrome(executable_path=DRIVER_BIN)
     baseURL = "https://megaocr-ui-rgacf-daiichi.omni.sc"
-    file1 = open("../data/Login_credentials.json", 'r')
-    json_input = file1.read()
-    inputBody = json.loads(json_input)
-    json_data = list(inputBody.values())
-    username = json_data.__getitem__(0)
-    password = json_data.__getitem__(1)
+    username = os.environ.get('omni_username')
+    password = os.environ.get('omni_password')
 
     @classmethod
     def setUpClass(cls):
@@ -44,14 +37,10 @@ class Form_upload(unittest.TestCase):
         upload_individual_form.form_1_hanasaku_test_0()  # Validates the Actual with Expected Key values
 
     def test_ac_upload_hanasaku_test_1(self):
-        multiple_form = Test_multiple_form_upload(self.driver)
-        multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
         upload_individual_form.form_2_hanasaku_test_1()  # Validates the Actual with Expected Key values
 
     def test_ad_upload_hanasaku_test_2(self):
-        multiple_form = Test_multiple_form_upload(self.driver)
-        multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
         upload_individual_form.form_3_hanasaku_test_2()  # Validates the Actual with Expected Key values
 
@@ -71,7 +60,7 @@ class Form_upload(unittest.TestCase):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_6_hanasaku_test_8()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_6_hanasaku_test_8()  # Validates the Actual with Expected
 
     def test_ah_upload_himawari_01_2(self):
         multiple_form = Test_multiple_form_upload(self.driver)
@@ -187,105 +176,156 @@ class Form_upload(unittest.TestCase):
         upload_individual_form = Test_individual_form_upload(self.driver)
         upload_individual_form.form_25_Feb_18_Medical_Exam_6_1()  # Validates the Actual with Expected Key values
 
-    def test_ba_upload_Feb_18_Medical_Exam_6_2(self):
+    def test_ba_upload_Feb_18_Medical_Exam_7_1(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_26_Feb_18_Medical_Exam_6_2()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_26_Feb_18_Medical_Exam_7_1()  # Validates the Actual with Expected Key values
 
-    def test_bb_upload_Feb_18_Medical_Exam_7_1(self):
+    def test_bb_upload_Feb_18_Medical_Exam_7_2(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_27_Feb_18_Medical_Exam_7_1()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_27_Feb_18_Medical_Exam_7_2()  # Validates the Actual with Expected Key values
 
-    def test_bc_upload_Feb_18_Medical_Exam_7_2(self):
+    def test_bc_upload_Feb_18_Medical_Exam_7_3(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_28_Feb_18_Medical_Exam_7_2()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_28_Feb_18_Medical_Exam_7_3()  # Validates the Actual with Expected Key values
 
-    def test_bd_upload_Feb_18_Medical_Exam_7_3(self):
+    def test_bd_upload_accenture_test_4_0(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_29_Feb_18_Medical_Exam_7_3()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_29_acc_test_4()  # Validates the Actual with Expected Key values
 
-    def test_be_upload_accenture_test_4_0(self):
+    def test_be_upload_accenture_test_6_0(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_30_acc_test_4()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_30_acc_test_6()  # Validates the Actual with Expected Key values
 
-    def test_bf_upload_accenture_test_6_0(self):
+    def test_bf_upload_accenture_test_9_0(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_31_acc_test_6()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_31_acc_test_9()  # Validates the Actual with Expected Key values
 
-    def test_bg_upload_accenture_test_9_0(self):
+    def test_bg_upload_accenture_test_25_0(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_32_acc_test_9()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_32_acc_test_25()  # Validates the Actual with Expected Key values
 
-    def test_bh_upload_accenture_test_25_0(self):
+    def test_bh_upload_Feb_18_Medical_Exam_11_0(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_33_acc_test_25()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_33_Feb_18_Medical_Exam_11_0()  # Validates the Actual with Expected Key values
 
-    def test_bi_upload_Feb_18_Medical_Exam_11_0(self):
+    def test_bi_upload_HC_1_pdf(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_34_Feb_18_Medical_Exam_11_0()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_34_HC_1_pdf()  # Validates the Actual with Expected Key values
 
-    def test_bj_upload_HC_1_pdf(self):
+    def test_bj_upload_HC_2_pdf(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_35_HC_1_pdf()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_35_HC_2_pdf()  # Validates the Actual with Expected Key values
 
-    def test_bk_upload_HC_2_pdf(self):
+    def test_bk_upload_HC_8_pdf(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_36_HC_2_pdf()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_36_HC_8_pdf()  # Validates the Actual with Expected Key values
 
-    def test_bl_upload_HC_8_pdf(self):
+    def test_bl_upload_HC_9_pdf(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_37_HC_8_pdf()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_37_HC_9_pdf()  # Validates the Actual with Expected Key values
 
-    def test_bm_upload_HC_9_pdf(self):
+    def test_bm_upload_HC_10_pdf(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_38_HC_9_pdf()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_38_HC_10_pdf()  # Validates the Actual with Expected Key values
 
-    def test_bn_upload_HC_10_pdf(self):
+    def test_bn_upload_CA_1(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_39_HC_10_pdf()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_39_ca_1()  # Validates the Actual with Expected Key values
 
-    def test_bo_upload_CA_1(self):
+    def test_bo_upload_CA_2(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_40_ca_1()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_40_ca_2()  # Validates the Actual with Expected Key values
 
-    def test_bp_upload_CA_2(self):
+    def test_bp_upload_CA_3(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_41_ca_2()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_41_ca_3()  # Validates the Actual with Expected Key values
 
-    def test_bq_upload_CA_3(self):
+    def test_bq_upload_accenture_test_mobile_9_0(self):
         multiple_form = Test_multiple_form_upload(self.driver)
         multiple_form.click_a_groups_tab()  # Clicks on Groups tab
         upload_individual_form = Test_individual_form_upload(self.driver)
-        upload_individual_form.form_42_ca_3()  # Validates the Actual with Expected Key values
+        upload_individual_form.form_42_accenture_test_mobile_9_0()  # Validates the Actual with Expected Key values
 
+    def test_br_upload_accenture_test_mobile_21_0(self):
+        multiple_form = Test_multiple_form_upload(self.driver)
+        multiple_form.click_a_groups_tab()  # Clicks on Groups tab
+        upload_individual_form = Test_individual_form_upload(self.driver)
+        upload_individual_form.form_43_accenture_test_mobile_21_0()  # Validates the Actual with Expected Key values
+
+    def test_bs_upload_accenture_test_mobile_25_0(self):
+        multiple_form = Test_multiple_form_upload(self.driver)
+        multiple_form.click_a_groups_tab()  # Clicks on Groups tab
+        upload_individual_form = Test_individual_form_upload(self.driver)
+        upload_individual_form.form_44_accenture_test_mobile_25_0()  # Validates the Actual with Expected Key values
+
+    def test_bt_upload_accenture_test_mobile_4_0(self):
+        multiple_form = Test_multiple_form_upload(self.driver)
+        multiple_form.click_a_groups_tab()  # Clicks on Groups tab
+        upload_individual_form = Test_individual_form_upload(self.driver)
+        upload_individual_form.form_45_accenture_test_mobile_4_0()  # Validates the Actual with Expected Key values
+
+    def test_bu_upload_NN_8(self):
+        multiple_form = Test_multiple_form_upload(self.driver)
+        multiple_form.click_a_groups_tab()  # Clicks on Groups tab
+        upload_individual_form = Test_individual_form_upload(self.driver)
+        upload_individual_form.form_46_NN_8()  # Validates the Actual with Expected Key values
+
+    def test_bv_upload_accenture_test_mobile_6_0(self):
+        multiple_form = Test_multiple_form_upload(self.driver)
+        multiple_form.click_a_groups_tab()  # Clicks on Groups tab
+        upload_individual_form = Test_individual_form_upload(self.driver)
+        upload_individual_form.form_47_accenture_test_mobile_6_0()  # Validates the Actual with Expected Key values
+
+    def test_bw_upload_NN_11(self):
+        multiple_form = Test_multiple_form_upload(self.driver)
+        multiple_form.click_a_groups_tab()  # Clicks on Groups tab
+        upload_individual_form = Test_individual_form_upload(self.driver)
+        upload_individual_form.form_48_NN_11()  # Validates the Actual with Expected Key values
+
+    def test_bx_upload_NN_12(self):
+        multiple_form = Test_multiple_form_upload(self.driver)
+        multiple_form.click_a_groups_tab()  # Clicks on Groups tab
+        upload_individual_form = Test_individual_form_upload(self.driver)
+        upload_individual_form.form_49_NN_12()  # Validates the Actual with Expected Key values
+
+    def test_by_upload_english_demo(self):
+        multiple_form = Test_multiple_form_upload(self.driver)
+        multiple_form.click_a_groups_tab()  # Clicks on Groups tab
+        upload_individual_form = Test_individual_form_upload(self.driver)
+        upload_individual_form.form_50_english_demo()  # Validates the Actual with Expected Key values
+
+    def test_by_Results_info(self):
+        upload_individual_form = Test_individual_form_upload(self.driver)
+        upload_individual_form.total_key_value_data()  # Gets the Key value count

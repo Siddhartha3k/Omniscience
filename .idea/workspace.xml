@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5c25b728-1250-498b-9ff6-2178dbbb8b88" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/EnglishDemo.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/EnglishDemo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/Feb18MedicalExam10-6.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/Feb18MedicalExam2-0.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/Feb18MedicalExam2-0.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/Feb18MedicalExam6-2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/Feb18MedicalExam7-2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/Feb18MedicalExam7-2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/HC_10.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/HC_10.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/HC_2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/HC_2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/HC_9.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/HC_9.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/Mis_HC_HCDATE_2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/Mis_HC_HCDATE_2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/Mis_HC_HCDATE_3.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/Mis_HC_HCDATE_3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/ca2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/ca2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/ca3.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/ca3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/hanasaku_test_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/hanasaku_test_0.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/hanasaku_test_2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/hanasaku_test_2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/hanasaku_test_8.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/hanasaku_test_8.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/himawari_01_02.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/himawari_01_02.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/himawari_01_3.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/himawari_01_3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/himawari_03_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/himawari_03_0.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/himawari_05_0.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/himawari_05_0.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forms_actual_data_json_file/himawari_07_3.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forms_actual_data_json_file/himawari_07_3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HC_forms/Feb_18_Medical_Exam_10-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HC_forms/Feb_18_Medical_Exam_6-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/all_keys_english.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/all_keys_english.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/image_path.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/image_path.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/json_file_paths.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/json_file_paths.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page_objects/individul_forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/page_objects/individul_forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_cases/TC_individual_form_upload_validate.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_cases/TC_individual_form_upload_validate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_cases/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/test_cases/debug.log" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1fxMA76ob365geEMqdWOCaj23zL" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5c25b728-1250-498b-9ff6-2178dbbb8b88" name="Default Changelist" comment="" />
+      <created>1597155143292</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1597155143292</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Added English equivalents to Japanese Keys, Added few more forms, Added Missing and wrong Keys differentiation.">
+      <created>1597204588184</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1597204588184</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added English equivalents to Japanese Keys, Added few more forms, Added Missing and wrong Keys differentiation.">
+      <created>1597209468824</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1597209468824</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added English equivalents to Japanese Keys, Added few more forms, Added Missing and wrong Keys differentiation." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added English equivalents to Japanese Keys, Added few more forms, Added Missing and wrong Keys differentiation." />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="445" y="24" key="CommitChangelistDialog2" timestamp="1597209467467">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="445" y="24" key="CommitChangelistDialog2/0.0.1600.860@0.0.1600.860" timestamp="1597209467467" />
+    <state x="580" y="184" key="FileChooserDialogImpl" timestamp="1597652918230">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="580" y="184" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1597652918230" />
+    <state x="301" y="72" key="SettingsEditor" timestamp="1597395378272">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="301" y="72" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1597395378272" />
+    <state x="392" y="162" key="Vcs.Push.Dialog.v2" timestamp="1597209482348">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="392" y="162" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1597209482348" />
+    <state x="496" y="253" key="com.intellij.ide.util.TipDialog" timestamp="1597568056323">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="496" y="253" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1597568056323" />
+  </component>
+</project>
